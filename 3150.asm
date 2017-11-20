@@ -1,3 +1,5 @@
+#include <reg932.inc>
+
 MOV 301H, #00H; Inputs to be loaded here
 MOV 302H, #00H
 MOV 303H, #00H
