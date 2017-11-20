@@ -28,18 +28,18 @@ MOV R6, #00H;Load the carry bits here
 MOV R0, #300H;Load the location of the input
 
 START:
-MOV A, R6;Load carry bits into A
-RRC A; move the proper carry bit into C
+MOV ACC, R6;Load carry bits into ACC
+RRC ACC; move the proper carry bit into C
  
-MOV A, @R0;load current bytes into R2 and A
-MOV R2, A
+MOV ACC, @R0;load current bytes into R2 and ACC
+MOV R2, ACC
 ADD R0, #09H
-MOV A, @R0
+MOV ACC, @R0
 SUB R0, #09H
 INC R0
 
-ADDC A, R2;do the addition and store the answer
-MOV @R1, A
+ADDC ACC, R2;do the addition and store the answer
+MOV @R1, ACC
 INC R1
 
 DJNZ R7, START;loop end
