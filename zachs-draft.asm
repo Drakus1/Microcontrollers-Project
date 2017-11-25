@@ -21,11 +21,10 @@ MOV 30FH, #00H
 MOV 310H, #00H
 
 MOV R7, #8       ; Number of input bytes (CHANGE AT START OF PROGRAM)
-MOV R5, #8       ; Number of bits in a byte
 MOV R6, #00H     ; Where the carry bits are stored
 MOV R0, #301H    ; Load the location of the input
 
-LCALL CARRYBITS
+LCALL CARRYBITS  ; Calculate the carry bits using look-ahead logic
 
 MOV R0, #301H
 MOV R7, #8       ; CHANGE AT START OF PROGRAM
@@ -61,7 +60,7 @@ MOV ACC, @R0
 SUB R0, #08H
 INC R0
 
-ADDC ACC, R2     ; Do the addition and store the answer
+ADDC ACC, R2     ; Do the addition and store the answer with the carries calculated.
 MOV @R1, ACC
 INC R1
 
@@ -72,8 +71,9 @@ DJNZ R7, START   ; Loop end
 ; Output all of the calculated data. Serial output?
 
 ORG 0100H
-CARRYBITS:
-BEGIN: ; loop to calculate the carry out for all bytes
+CARRYBITS:  MOV R7, #7     ; (CHANGE AT START OF PROGRAM (# of operands - 1))
+            CLR 03H        ; initial carry-in is 0
+BEGIN:                     ; loop to calculate the carry out for all bytes
         MOV R5, #8
         LOOP:  ; loop to calculate the carry out for one byte pair
               MOV ACC, @R0
@@ -110,6 +110,6 @@ BEGIN: ; loop to calculate the carry out for all bytes
         MOV C, 03H
         MOV ACC, R6
         RRC ACC
-        MOV ACC, R6
+        MOV R6, ACC
         DJNZ R7, BEGIN
 RET
