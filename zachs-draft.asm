@@ -52,6 +52,7 @@ MOV R1, #311H    ; The location the answer will be stored
 START:
 MOV ACC, R6      ; Load carry bits into ACC
 RRC ACC          ; Move the proper carry bit into C
+MOV R6, ACC
 
 MOV ACC, @R0     ; Load current bytes into R2 and ACC
 MOV R2, ACC
